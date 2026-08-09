@@ -10,6 +10,7 @@ from core.Llm import LLMEngine
 
 class Agent:
     def __init__(self):
+        self.model = "qwen3:8b"
         self.event_receiver = EventReceiver()
         self.world_engine = WorldEngine(event_receiver=self.event_receiver)
 
@@ -23,7 +24,7 @@ class Agent:
     async def main(self):
         print("Agent::main")
         self.conversation_engine = ConversationEngine(self.message_bus)
-        self.llm_engine = LLMEngine(self.message_bus)
+        self.llm_engine = LLMEngine(self.message_bus, self.model)
 
         asyncio.create_task(self.message_bus.run())
         asyncio.create_task(self.waiting_message())
@@ -38,6 +39,7 @@ class Agent:
                 self.message_count -= 1
                 self.user = ""
                 self.prompt = ""
+            await asyncio.sleep(0.05)
 
 
     def receive_user_input(self, user_input: str, user: str):

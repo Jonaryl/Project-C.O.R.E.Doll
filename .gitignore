@@ -2,6 +2,7 @@ pv/
 ENGINE_ROADMAP.md
 architecture.md
 ToDo.md
+library/memories/CurrentDiscussion.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -221,3 +222,4 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+library/memories/CurrentDiscussion.json

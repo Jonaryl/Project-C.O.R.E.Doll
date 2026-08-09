@@ -5,8 +5,9 @@ from core.messages import Message
 
 class LLMEngine:
 
-    def __init__(self, bus):
+    def __init__(self, bus, model):
         self.bus = bus
+        self.model = model
         self.client = ollama.Client()
 
         bus.subscribe(
@@ -19,7 +20,7 @@ class LLMEngine:
         data = message.data
         prompt = data["content"]
 
-        response = await self.generate(prompt)
+        response = await self.generate(prompt, self.model)
 
         await self.bus.publish(
             Message(
@@ -42,5 +43,7 @@ class LLMEngine:
         }
         )
         print(f"Réponse du modèle à : {prompt}")
-        print("response", response)
+        print("response", response["message"]["content"])
+        print("thinking", response["message"]["thinking"])
+
         return response["message"]["content"]
