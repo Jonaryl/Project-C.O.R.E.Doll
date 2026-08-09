@@ -1,3 +1,8 @@
+pv/
+ENGINE_ROADMAP.md
+architecture.md
+ToDo.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
