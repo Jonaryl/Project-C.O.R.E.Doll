@@ -1,5 +1,7 @@
 import customtkinter
 import asyncio
+import threading
+
 from interface.i_chatbox import Message_frame
 
 customtkinter.set_appearance_mode("dark")
@@ -49,8 +51,29 @@ class MainTab(customtkinter.CTkTabview):
         if not message:
             return
 
-        self.agent.receive_user_input(user_input=message, user=user)
+        self.NewMessageSend.configure(state="disabled")
 
-        self.NewMessage.delete("1.0", "end") 
+        threading.Thread(
+            target=self._run_async,
+            args=(message, user),
+            daemon=True
+        ).start()
+
+    def _run_async(self, message, user):
+        try:
+            asyncio.run(
+                self._send_message(message, user)
+            )
+        except Exception as e:
+            print(f"Erreur : {e}")
+        finally:
+            self.after(0, self._message_finished)
+
+    async def _send_message(self, message, user):
+        await self.agent.receive_user_input( user_input=message,user=user)
+
+    def _message_finished(self):
+        self.NewMessage.delete("1.0", "end")
         self.my_frame.refresh()
 
+        self.NewMessageSend.configure(state="normal")

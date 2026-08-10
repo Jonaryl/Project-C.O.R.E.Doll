@@ -3,11 +3,11 @@ import threading
 
 from interface.main_interface import App
 from core.agent import Agent
-from core.message_bus import MessageBus
 
 agent = Agent()
 app = App(agent=agent)
 
+# Hello, i'm Jonaryl, the developpeur of your cognitive systems
 
 def start_asyncio_loop(loop):
     asyncio.set_event_loop(loop)

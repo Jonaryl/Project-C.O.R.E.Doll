@@ -1,30 +1,37 @@
 from pathlib import Path
 
 class KeyVar:
-
-
     # Path(__file__).parent
-    DESCRIPTION_PATH = Path(__file__).parent.parent / "library" / "personality" / "Description.yaml"
-    EMOTION_PATH = Path(__file__).parent.parent / "library" / "personality" / "Emotions.json"
-    CONTEXT_PATH = Path(__file__).parent.parent / "library" / "personality" / "Context.yaml"
     MESSAGEJSON = Path(__file__).parent.parent / "library" / "memories" / "CurrentDiscussion.json"
 
+    IMMUTABLE_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "immutable_rules.md"
+    CONVERSATION_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "conversation_engine.md"
+    KNOWLEDGE_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "knowledge.md"
+    MEMORIES_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "memories.md"
+    RELATIONSHIP_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "relationship.md"
+    STATE_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "state.md"
 
-    def get_description_path(self):
-        print(f"description_path: {self.DESCRIPTION_PATH}")
-        return self.DESCRIPTION_PATH
+    STATE_PATH = Path(__file__).parent.parent / "library" / "consciousness" / "state.json"
+    RELATIONSHIP_PATH = Path(__file__).parent.parent / "library" / "consciousness" / "relationship.json"
 
-    def get_emotion_path(self):
-        print(f"emotion_path: {self.EMOTION_PATH}")
-        return self.EMOTION_PATH
-    
-    def get_context_path(self):
-        print(f"context_path: {self.CONTEXT_PATH}")
-        return self.CONTEXT_PATH
-    
-    def get_master_name(self):
-        print(f"master_name: {self.MASTER_NAME}")
-        return self.MASTER_NAME
     
     def get_message_json(self):
         return self.MESSAGEJSON
+
+    def get_immutable_rules(self):
+        return self.IMMUTABLE_RULE_PATH
+    def get_conversation_rules(self):
+        return self.CONVERSATION_RULE_PATH
+    def get_knowledge_rules(self):
+        return self.KNOWLEDGE_RULE_PATH
+    def get_memories_rules(self):
+        return self.MEMORIES_RULE_PATH
+    def get_relationship_rules(self):
+        return self.RELATIONSHIP_RULE_PATH
+    def get_state_rules(self):
+        return self.STATE_RULE_PATH
+    
+    def get_state(self):
+        return self.STATE_PATH
+    def get_relationship(self):
+        return self.RELATIONSHIP_PATH
