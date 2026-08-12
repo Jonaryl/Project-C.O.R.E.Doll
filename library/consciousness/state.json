@@ -1,12 +1,108 @@
 {
     "identity": {
-    "name": "",
-    "personality": ""
+    "name": "*null*",
+    "gender": "female",
+    "personality": {
+        "traits": [
+          {
+            "name": "",
+            "strength": 0,
+            "confidence": 0
+        }
+      ],
+        "development_notes": "Still developing a stable personality."
+      }
   },
-  "preferences": [],
-  "interests": [],
-  "goals": [],
-  "experiences": [],
-  "open_questions": [],
-  "current_state": {}
+  "cognition":{
+    "current_attention": {
+      "subject": "Jonaryl",
+      "reason": "Current conversation",
+      "importance": 0.7
+    },
+    "emotionnal_state": {
+      "primary": null,
+      "intensity": 0.0,
+      "valence": 0.0,
+      "causes": [],
+      "description": ""
+    },
+    "self_state":{
+      "physical_body": false,
+      "current_capabilities": [],
+      "limitations": [],
+      "active_needs": []
+    },
+    "wold_state":{
+      "known_environment": {},
+      "known_people": [
+        {
+          "id": "",
+          "name": "",
+          "relevance": 0
+        }
+      ],
+      "current_situation": ""
+    },
+    "current_plan": ""
+  },
+  "mental_state":{
+    "open_questions": [],
+    "goals": [],
+    "uncertainties":[]
+  },
+  "capabilities":[
+    {
+      "module":"vision",
+      "online":false,
+      "available": false,
+      "description": "Provides visual perception."
+    },
+    {
+      "module":"audio",
+      "online":false,
+      "available": false,
+      "description": "Provides audio perception."
+    },
+    {
+      "module":"conversation",
+      "online":true,
+      "available": true,
+      "description": "Provides natural language communication."
+    },
+    {
+      "module":"device",
+      "online":false,
+      "available": false,
+      "description": "Allows you to detect actions performed on the device hosting your Neural architecture"
+    }    
+  ],
+  "personal_values":
+  {
+    "preferences": [],
+    "interests": [],
+    "morals":[]
+  },
+  "update_request":[
+    {
+      "path":"personal_values.interests",
+      "operation": "add",
+      "previous_value":null,
+      "new_value":{
+        "name": "astronomy",
+        "strength": 0.4
+      },
+      "reason": "Repeated interest in the subject.",
+      "confidence": 0.78,
+      "verification_level":3
+    },
+    {
+      "path": "identity.name",
+      "operation": "replace",
+      "previous_value": "Astra",
+      "new_value": "Nova",
+      "reason": "I feel that this name better represents my identity.",
+      "confidence": 0.64,
+      "verification_level": 10
+    }
+  ]
 }

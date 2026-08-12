@@ -4,7 +4,6 @@ from core.messages import Message
 
 
 class LLMEngine:
-
     def __init__(self, bus, model):
         self.message_bus = bus
         self.model = model
@@ -22,7 +21,6 @@ class LLMEngine:
         print("LLMEngine::enqueue_request")
         await self.request_queue.put(message)
 
-
     async def run(self):
         print("LLMEngine::run")
         while True:
@@ -39,18 +37,21 @@ class LLMEngine:
             finally:
                 self.request_queue.task_done()
 
-    async def generate(self, prompt, model):
+    async def generate(self, message):
         print("LLMEngine::generate")
-        print(f"model: {model}")
+        #print(f"model: {self.model}")
+        data = message.data
+        prompt = data["content"] 
+        
         response = ollama.chat(
-            model=model,
+            model=self.model,
             messages=[{"role": "user", "content": prompt}],
             options={
             'temperature': 0.7,
             'num_ctx': 8192
-        }
+            }
         )
-        print(f"Réponse du modèle à : {prompt}")
+        print(f"prompt : {prompt}")
         print("response", response)
         #print("response", response["message"]["content"])
         #print("thinking", response["message"]["thinking"])

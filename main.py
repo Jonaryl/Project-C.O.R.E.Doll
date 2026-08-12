@@ -2,6 +2,7 @@ import asyncio
 import threading
 
 from interface.main_interface import App
+from interface.main_interface import MainTab
 from core.agent import Agent
 
 agent = Agent()
@@ -26,3 +27,12 @@ if __name__ == "__main__":
     asyncio.run_coroutine_threadsafe(agent_startup(), loop)
     
     app.mainloop()
+
+
+
+# NEXT : 
+
+# ajouter les donner du STATE
+# ajouter module offline pour memoire, know etc
+
+# Memoire de base

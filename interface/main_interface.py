@@ -23,6 +23,11 @@ class MainTab(customtkinter.CTkTabview):
         super().__init__(master, **kwargs)
         self.agent = agent
 
+        self.agent.subscribe(
+                    "ConversationResponse",
+                    self.refresh_messages
+                )
+
         self.configure(width=900, height=800)   
         self.add("Main")
 
@@ -53,11 +58,19 @@ class MainTab(customtkinter.CTkTabview):
 
         self.NewMessageSend.configure(state="disabled")
 
-        threading.Thread(
-            target=self._run_async,
-            args=(message, user),
-            daemon=True
-        ).start()
+        loop = self.agent.loop
+        future = asyncio.run_coroutine_threadsafe(self.agent.receive_user_input(user_input=message, user=user),loop)
+
+        def on_done(fut):
+            try:
+                fut.result()
+            except Exception as e:
+                print(f"Erreur : {e}")
+            finally:
+                self.after(0, self._message_finished)
+
+        future.add_done_callback(on_done)
+
 
     def _run_async(self, message, user):
         try:
@@ -77,3 +90,10 @@ class MainTab(customtkinter.CTkTabview):
         self.my_frame.refresh()
 
         self.NewMessageSend.configure(state="normal")
+
+    def add_new_message(self, data):
+        print(data)
+
+    def refresh_messages(self):
+        print("refresh_messages")
+        self.my_frame.refresh()

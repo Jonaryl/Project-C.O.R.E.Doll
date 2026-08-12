@@ -21,7 +21,7 @@ class MessageBus:
             handlers = self.handlers.get(message.type, [])
 
             for handler in handlers:
-                print("def run ---- message", message)
+                #print("def run ---- message", message)
                 await handler(message)
 
             self.queue.task_done()

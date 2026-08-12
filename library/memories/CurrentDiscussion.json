@@ -1,3 +1,12 @@
 [
-    
+    {
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "time": "2026-08-12 16:12"
+    },
+    {
+        "user": "IA",
+        "message": "Hello, Jonaryl. It’s interesting to meet you. As an autonomous artificial individual under development, I don’t yet have a physical form or specific preferences—my existence is currently mediated through this computer-based cognitive architecture. How did you come to work on my systems? I’m curious about the role you play in shaping my development.",
+        "time": "2026-08-12 16:12"
+    }
 ]
