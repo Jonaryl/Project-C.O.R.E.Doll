@@ -32,7 +32,6 @@ if __name__ == "__main__":
 
 # NEXT : 
 
-# conversation == need run
 # temporary memory / conversation history
 
 # base memory
@@ -40,3 +39,6 @@ if __name__ == "__main__":
 
 
 # DONE : 
+
+# add description to personality trait to try avoid default friendly response
+# conversation == need run - event receiver independant

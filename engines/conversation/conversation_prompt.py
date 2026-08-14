@@ -8,14 +8,14 @@ class ConversationPrompt:
     def manage_user_messages(self, messages):
         prompt = "# User input : \n"
         for message in messages:
-            #print("message", message)
+            print("message", message)
             prompt += f"- user: {message["user"]}\n"
             prompt += f"- message: {message["message"]}\n"
         return prompt
 
     def create_prompt(self, all_events):
-        #print("create_prompt all_events", all_events)
-        user_input = self.manage_user_messages(all_events)
+        print("create_prompt all_events", all_events)
+        user_input = self.manage_user_messages(all_events["messages"])
 
         prompt = f"""
 --Conversation--
@@ -102,24 +102,12 @@ class ConversationPrompt:
                     text.append(
                         f"- {trait['name']} (strength: {trait['strength']:.2f}, confidence: {trait['confidence']:.2f})"
                     )
+                    text.append(f"\n- {self.get_personality_trait(trait['name'])}")
             if personality_trait_count == 0:
-                text.append("\n- Neutral")
+                text.append("- Neutral - (strength: 1, confidence: 1)")
+                text.append(f"- {self.get_personality_trait("Neutral")}")
 
         return "\n".join(text)
-
-    def get_state_intensity_text(self, value):
-        text = ""
-        if value <= 0.2:
-            text = "very low : "
-        elif value <= 0.4:
-            text = "low : "
-        elif value <= 0.6:
-            text = "moderate : "
-        elif value <= 0.8:
-            text = "high : "
-        else:
-            text = "very high : "
-        return text
 
     def state_format_cognition(self, cognition):
         text = ["## COGNITIVE STATE"]
@@ -163,7 +151,7 @@ class ConversationPrompt:
 
                 if capability["online"]:
                     online = "/ online"
-                text.append(f"\n{capability["module"]} : {available} {online} - {capability["description"]}")
+                text.append(f"{capability["module"]} : {available} {online} - {capability["description"]}")
 
         #print("state_format_capabilities", text)
         return "\n".join(text)
@@ -181,3 +169,26 @@ class ConversationPrompt:
 
         #print("state_format_personal_values", text)
         return "\n".join(text)
+
+    def get_personality_trait(self, personality_trait):
+        personality_file = file_r.read_json_file(key_var.get_personality_trait())
+        personality_description = ""
+        for personality in personality_file:
+            if personality["personality_trait"] == personality_trait:
+                personality_description = personality["Description"]
+        return personality_description
+
+
+    def get_state_intensity_text(self, value):
+        text = ""
+        if value <= 0.2:
+            text = "very low : "
+        elif value <= 0.4:
+            text = "low : "
+        elif value <= 0.6:
+            text = "moderate : "
+        elif value <= 0.8:
+            text = "high : "
+        else:
+            text = "very high : "
+        return text

@@ -10,6 +10,7 @@ class KeyVar:
     MEMORIES_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "memories.md"
     RELATIONSHIP_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "relationship.md"
     STATE_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "state.md"
+    PERSONALITY_TRAIT_PATH = Path(__file__).parent.parent / "library" / "rules" / "personality_trait.json"
 
     STATE_PATH = Path(__file__).parent.parent / "library" / "consciousness" / "state.json"
     RELATIONSHIP_PATH = Path(__file__).parent.parent / "library" / "consciousness" / "relationship.json"
@@ -30,6 +31,8 @@ class KeyVar:
         return self.RELATIONSHIP_RULE_PATH
     def get_state_rules(self):
         return self.STATE_RULE_PATH
+    def get_personality_trait(self):
+        return self.PERSONALITY_TRAIT_PATH
     
     def get_state(self):
         return self.STATE_PATH

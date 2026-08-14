@@ -1,35 +1,40 @@
-
+import asyncio
 
 
 class EventReceiver:
     def __init__(self, bus):
         self.message_bus = bus
-        self.events_messages = []
-        self.events_voices = []
-        self.events_visions = []
-        self.events_actions = []
+        self.event_queue = asyncio.Queue()
+        self.message_bus.subscribe("WritingConversationEvent", self.receive_user_input)
 
-        self.message_bus.subscribe("WritingConversationMemory", self.receive_user_input)
-
-    def receive_user_input(self, message):      
+    async def receive_user_input(self, message):
+            print(" -------  EventReceiver::receive_user_input ------- user = ", message.data.get("user"))  
             event = {
                     "id": message.id,
                     "user": message.data.get("user"),
                     "message": message.data.get("content"),
                     "correlation_id": message.correlation_id,
-                    "time": message.timestamp
+                    "time": message.timestamp,
+                    "type": "user_input"   
                     }
             print(" event = ", event)
-            self.events_messages.append(event)
+            await self.event_queue.put(event)
 
-    def get_events(self):
-        all_events = {
-             "messages": self.events_messages,
-             "voices": self.events_voices,
-             "visions": self.events_visions,
-             "actions": self.events_actions
+    async def get_events(self):
+        events = []
+
+        first = await self.event_queue.get()
+        events.append(first)
+
+        while not self.event_queue.empty():
+            events.append(self.event_queue.get_nowait())
+
+        return {
+            "messages": [e for e in events if e.get("type") == "user_input"],
+            "voices": [],
+            "visions": [],
+            "actions": []
         }
-        return all_events
 
     def clear_event(self):
         self.events_messages.clear()

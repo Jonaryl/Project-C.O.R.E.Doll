@@ -63,7 +63,7 @@ class LLMEngine:
             'num_ctx': 8192
             }
         ))
-        print(f"prompt : {prompt}")
+        #print(f"prompt : {prompt}")
         print("LLMEngine::generate response", response)
         #print("response", response["message"]["content"])
         #print("thinking", response["message"]["thinking"])

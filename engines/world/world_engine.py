@@ -16,7 +16,7 @@ class WorldEngine:
         return self.state
 
     def get_events(self):
-        self.event_receiver.get_events()
+        return self.event_receiver.get_events()
 
     def clear_event(self):
         self.event_receiver.clear_event()
