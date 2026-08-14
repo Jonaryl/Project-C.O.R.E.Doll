@@ -8,19 +8,21 @@ class ConversationPrompt:
     def manage_user_messages(self, messages):
         prompt = "# User input : \n"
         for message in messages:
+            #print("message", message)
             prompt += f"- user: {message["user"]}\n"
-            prompt += f"- message: {message["content"]}\n"
+            prompt += f"- message: {message["message"]}\n"
         return prompt
 
     def create_prompt(self, all_events):
-        user_input = self.manage_user_messages(all_events["messages"])
+        #print("create_prompt all_events", all_events)
+        user_input = self.manage_user_messages(all_events)
 
         prompt = f"""
 --Conversation--
 
 {user_input}
 """
-        print("ConversationPrompt create_prompt Prompt :", prompt)
+        #print("ConversationPrompt create_prompt Prompt :", prompt)
 
         finalprompt = self.add_rules_to_prompt(prompt)
 
@@ -101,7 +103,7 @@ class ConversationPrompt:
                         f"- {trait['name']} (strength: {trait['strength']:.2f}, confidence: {trait['confidence']:.2f})"
                     )
             if personality_trait_count == 0:
-                text.append("\n- None established yet.")
+                text.append("\n- Neutral")
 
         return "\n".join(text)
 
@@ -144,7 +146,7 @@ class ConversationPrompt:
         if cognition.get("current_plan"):
             text.append(f"Your current plan is : {cognition['current_plan']}")
 
-        print("state_format_cognition", text)
+        #print("state_format_cognition", text)
         return "\n".join(text)
     
     def state_format_capabilities(self, capabilities):
@@ -163,7 +165,7 @@ class ConversationPrompt:
                     online = "/ online"
                 text.append(f"\n{capability["module"]} : {available} {online} - {capability["description"]}")
 
-        print("state_format_capabilities", text)
+        #print("state_format_capabilities", text)
         return "\n".join(text)
 
     def state_format_personal_values(self, personal_values):
@@ -177,5 +179,5 @@ class ConversationPrompt:
             else:
                 text.append("- None established yet.")
 
-        print("state_format_personal_values", text)
+        #print("state_format_personal_values", text)
         return "\n".join(text)

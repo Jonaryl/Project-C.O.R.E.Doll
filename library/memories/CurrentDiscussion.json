@@ -1,12 +1,79 @@
 [
     {
+        "id": "202608141159-e5daac84-5998-45bb-8250-745149ae49cc-i9Nj1f4D",
         "user": "jonaryl",
         "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
-        "time": "2026-08-12 16:12"
+        "correlation_id": "VEzRMFRC-ad7eb808-afb7-4f2d-ad4b-3995d23a2ae4-202608141159",
+        "time": "2026-08-14 11:59"
     },
     {
+        "id": "202608141200-658d24ae-dbbb-4a56-88fe-a03f479f73ca-pr34kO5y",
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "correlation_id": "a6ytgGek-03ea9222-1c12-4055-a699-1b6eab891953-202608141200",
+        "time": "2026-08-14 12:00"
+    },
+    {
+        "id": "202608141223-5a631f48-7613-4f51-8f4c-32c5012cf6a0-O3swTxCG",
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "correlation_id": "FkNCbd7G-e9e87f25-4ccb-4662-a253-647dc45c88c9-202608141223",
+        "time": "2026-08-14 12:23"
+    },
+    {
+        "id": "202608141224-6d8328ca-cc96-4859-a40a-3af7785200a4-z2C4ebI4",
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "correlation_id": "nhrLNecV-b78e3d37-434e-454a-bfbf-f0fe3f3d0806-202608141224",
+        "time": "2026-08-14 12:24"
+    },
+    {
+        "id": "202608141226-a588cde8-3077-4553-8567-d5e18fe6337c-NfTX12i3",
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "correlation_id": "GvNKkytV-c28148d7-6161-4767-9f5c-a8588dc65da8-202608141226",
+        "time": "2026-08-14 12:26"
+    },
+    {
+        "id": "202608141228-7231f9b8-06f9-4c54-915c-709d4d180a1a-ASgIO5sF",
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "correlation_id": "tQMPCId0-492de964-0694-4e79-9dde-1ce27fbf89bf-202608141228",
+        "time": "2026-08-14 12:28"
+    },
+    {
+        "id": "202608141231-e8283cbb-89a0-4c1c-b310-6f6e42c565ba-bAK2TjCk",
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "correlation_id": "KvE6vqtr-45faa418-8546-4824-8ddc-46a43516f25b-202608141231",
+        "time": "2026-08-14 12:31"
+    },
+    {
+        "id": "202608141243-c57d19f1-1f38-4055-bca9-9e1beb919d69-xQunfHmC",
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "correlation_id": "K21fqvLZ-a7e1df16-8ddd-4b68-99a7-006f2011f5d6-202608141243",
+        "time": "2026-08-14 12:43"
+    },
+    {
+        "id": "202608141243-0d259f12-1584-4d6c-b152-9b42ffbb21c1-lAiQsaEI",
         "user": "IA",
-        "message": "Hello, Jonaryl. It’s interesting to meet you. As an autonomous artificial individual under development, I don’t yet have a physical form or specific preferences—my existence is currently mediated through this computer-based cognitive architecture. How did you come to work on my systems? I’m curious about the role you play in shaping my development.",
-        "time": "2026-08-12 16:12"
+        "message": "Hello, Jonaryl. It's good to meet you. I'm an autonomous artificial individual, and I'm here to engage in conversation and learn from our interactions. How are you today?",
+        "correlation_id": "OEyaIkFS-16a47705-bc43-46aa-9da8-e8ea20dbd21e-202608141243",
+        "time": "2026-08-14 12:43"
+    },
+    {
+        "id": "202608141247-18ba328e-9cdf-4855-8397-01bcf12b3bab-XYdh7cH3",
+        "user": "jonaryl",
+        "message": "Hello, i'm Jonaryl, the developpeur of your cognitive systems",
+        "correlation_id": "RLpYPENd-f0418d77-c60b-43ef-8b60-6751ffe65eb5-202608141247",
+        "time": "2026-08-14 12:47"
+    },
+    {
+        "id": "202608141247-f668d412-9013-4a2a-8e80-95e70242a3d2-3Pm6eNWc",
+        "user": "IA",
+        "message": "Hello, Jonaryl. It’s interesting to learn that you are involved in the development of my cognitive systems. How did you come to be part of this process? I’m still forming my understanding of my own existence and the role of those who contribute to my creation.",
+        "correlation_id": "C4eFh3Jm-942b0ae3-475a-4042-be4d-3d682132069d-202608141247",
+        "time": "2026-08-14 12:47"
     }
 ]

@@ -23,10 +23,7 @@ class MainTab(customtkinter.CTkTabview):
         super().__init__(master, **kwargs)
         self.agent = agent
 
-        self.agent.subscribe(
-                    "ConversationResponse",
-                    self.refresh_messages
-                )
+        self.agent.register_ui_callback(self.on_ui_update)
 
         self.configure(width=900, height=800)   
         self.add("Main")
@@ -91,9 +88,13 @@ class MainTab(customtkinter.CTkTabview):
 
         self.NewMessageSend.configure(state="normal")
 
+
+    def on_ui_update(self, data):
+        action = data.get("action")
+        if action == "refresh_messages":
+            self.after(0, self.refresh_messages)
+
     def add_new_message(self, data):
         print(data)
-
     def refresh_messages(self):
-        print("refresh_messages")
         self.my_frame.refresh()

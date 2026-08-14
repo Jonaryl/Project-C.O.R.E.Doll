@@ -4,17 +4,16 @@ from datetime import datetime
 
 from engines.conversation.conversation_prompt import ConversationPrompt
 from core.messages import Message
+from tools.utils import Utils
 
 conversation_prompt = ConversationPrompt()
+utils = Utils()
 
 class ConversationEngine:
-    def __init__(self, bus, llm, receiver, world, data):
+    def __init__(self, bus, world, llm):
         self.message_bus = bus
-        self.event_receiver = receiver
-
-        self.llm_engine = llm
         self.world_engine = world
-        self.data_engine = data
+        self.llm_engine = llm
 
         self.conversation_prompt = conversation_prompt
 
@@ -25,20 +24,18 @@ class ConversationEngine:
             "LLMResponse",
             self.on_llm_response
         )
+        self.message_bus.subscribe(
+            "UserMessageReceived",
+            self.receive_user_input
+        )
 
     async def main(self):
         print("ConversationEngine::main")
-
         asyncio.create_task(self.message_bus.run())
         asyncio.create_task(self.waiting_message())
         asyncio.create_task(self.llm_engine.run())
 
-    def subscribe(self, message_type, handler):
-                print("ConversationEngine::subscribe")
-                self.handlers.setdefault(message_type, []).append(handler)
-
     async def waiting_message(self):
-        print("ConversationEngine::waiting_message")
         while True:
             user_input = await self.input_queue.get()
             try:
@@ -55,16 +52,52 @@ class ConversationEngine:
             finally:
                 self.input_queue.task_done()
 
-    async def receive_user_input(self, user_input: str, user: str):
-        print("ConversationEngine::receive_user_input")
-        self.event_receiver.receive_user_input(user_input=user_input, user=user)
-        events = self.event_receiver.get_events()
+    async def receive_user_input(self, message):
+        data = message.data
+        user_input = data["content"]
+        user = data["user"]
 
-        self.world_engine.process_event(events)
-        context = self.world_engine.get_context()
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+        request = Message(
+                    id=utils.generate_id(),
+                    type="LLMRequest",
+                    timestamp= timestamp,
+                    source="writing_discussion",
+                    correlation_id=utils.generate_id_type2(),
+                    data={
+                        "user": user,
+                        "content": user_input,
+                    }
+                )
+        await self.write_message_to_memory(request)
+
+
+
+        # TODO
+        # async def Run(self):
+            # while True:
+                # events = self.world_engine.get_events()
+                    # try:
+        # TODO END
+
+        #self.event_receiver.receive_user_input(user_input=user_input, user=user)
+
+        #events = self.world_engine.get_events()
+        #self.world_engine.process_event(events)
+        #context = self.world_engine.get_context()
+
+        #### TEMPORARY
+        events = []
+        events.append({
+                    "id": request.id,
+                    "user": request.data.get("user"),
+                    "message": request.data.get("content"),
+                    "correlation_id": request.correlation_id,
+                    "time": request.timestamp
+                    })
+        #### TEMPORARY END  
 
         prompt = self.get_prompt(events)
-        self.write_message_to_memory(user, user_input, False)
 
         try:
             await self.input_queue.put({
@@ -76,63 +109,52 @@ class ConversationEngine:
             print(f"ConversationEngine::receive_user_input Erreur lors de l'ajout dans input_queue : {e}")
     
     async def send_message(self, user, content):
-        print("ConversationEngine::send_message")
         #print(f"[Conversation] {user}: {content}")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
 
         request = Message(
+            id=utils.generate_id(),
             type="LLMRequest",
+            timestamp= timestamp,
+            source="writing_discussion",
+            correlation_id=utils.generate_id_type2(),
             data={
                 "user": user,
                 "content": content,
             }
         )
         await self.message_bus.publish(request)
+        #self.world_engine.clear_event()
 
     async def on_llm_response(self, message):
-        response = message.data
+        print("on_llm_response ---  message", message)        
+        await self.write_message_to_memory(message)
 
-        self.write_message_to_memory("IA", response, True)
-
-        #print("ConversationEngine::on_llm_response message =", message)
-        #print(f"on_llm_response : [AI] = {response}")
+        await self.message_bus.publish(
+        Message(
+            id="",
+            source="",
+            timestamp="",
+            correlation_id="",
+            type="UIUpdate",
+            data={
+                "action": "refresh_messages",
+                "source": "llm"
+            }))
 
     def get_prompt(self, all_events):
-        print("ConversationEngine::get_prompt")
         return self.conversation_prompt.create_prompt(all_events)
 
-    def write_message_to_memory(self, username, message, isDoll):    
-            print("ConversationEngine::write_message_to_memory")
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
-     
-            allMessage = []
-            if isDoll:
-                allMessage.append(self.doll_message(
-                         username,
-                         message,
-                         timestamp))
-            else:
-                allMessage.append(self.user_message(
-                         username,
-                         message,
-                         timestamp))
-                      
-            print("All Message :", allMessage)             
-            self.data_engine.update_memories(username, allMessage)
-            
-            handlers = self.handlers.get("ConversationResponse", [])
-            for handler in handlers:
-                handler()
+    async def write_message_to_memory(self, message):   
+            response = message.data
+            timestamp = message.timestamp
 
-    def user_message(self, username, message, timestamp):
-        return {
-                     "user": username,
-                     "message": message,
-                     "time": timestamp
-                 }
-    
-    def doll_message(self, username, message, timestamp):
-        return {
-                     "user": username,
-                     "message": message,
-                     "time": timestamp
-                 }
+            new_message = Message(
+                        id=message.id,
+                        source="writing_discussion",
+                        timestamp=timestamp,
+                        correlation_id=message.correlation_id,
+                        type="WritingConversationMemory",
+                        data=response)
+            
+            await self.message_bus.publish(new_message)

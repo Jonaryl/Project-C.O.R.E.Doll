@@ -1,11 +1,12 @@
 
-
+from engines.world.event_receiver import EventReceiver
 
 
 class WorldEngine:
-    def __init__(self, event_receiver):
+    def __init__(self, bus):
         self.state = {}
-        self.event_receiver = event_receiver
+        self.message_bus = bus
+        self.event_receiver = EventReceiver(self.message_bus)
 
     def process_event(self, event):
         # modifier self.state
@@ -13,3 +14,9 @@ class WorldEngine:
 
     def get_context(self):
         return self.state
+
+    def get_events(self):
+        self.event_receiver.get_events()
+
+    def clear_event(self):
+        self.event_receiver.clear_event()

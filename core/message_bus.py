@@ -1,4 +1,6 @@
+import traceback
 import asyncio
+import inspect
 
 class MessageBus:
     def __init__(self):
@@ -6,22 +8,28 @@ class MessageBus:
         self.handlers = {}
 
     def subscribe(self, message_type, handler):
-        print("MessageBus::subscribe")
         self.handlers.setdefault(message_type, []).append(handler)
 
     async def publish(self, message):
-        print("MessageBus::publish")
         await self.queue.put(message)
 
     async def run(self):
-        print("MessageBus::run")
         while True:
             message = await self.queue.get()
+            try:
+                handlers = self.handlers.get(message.type, [])
 
-            handlers = self.handlers.get(message.type, [])
+                for handler in handlers:
+                    #print(f"  → handler = {handler}  (type={type(handler)})")  # debug
 
-            for handler in handlers:
-                #print("def run ---- message", message)
-                await handler(message)
-
-            self.queue.task_done()
+                    if inspect.iscoroutinefunction(handler):
+                        await handler(message)
+                    else:
+                        result = handler(message)
+                        if asyncio.iscoroutine(result):
+                            await result
+            except Exception as e:
+                print(f"MessageBus::run ERROR on {message.type}: {e}")
+                traceback.print_exc()
+            finally:
+                self.queue.task_done()

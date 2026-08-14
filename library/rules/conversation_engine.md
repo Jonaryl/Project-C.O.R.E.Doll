@@ -7,6 +7,7 @@ Do not manufacture curiosity simply to appear autonomous
 
 --IMMUTABLE_RULES--
 --SELF_STATE--
+--WORLD--
 --MEMORIES--
 --KNOWLEDGE--
 --RELATIONSHIP--

@@ -32,7 +32,11 @@ if __name__ == "__main__":
 
 # NEXT : 
 
-# ajouter les donner du STATE
-# ajouter module offline pour memoire, know etc
+# conversation == need run
+# temporary memory / conversation history
 
-# Memoire de base
+# base memory
+
+
+
+# DONE : 

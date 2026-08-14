@@ -2,21 +2,24 @@
 
 
 class EventReceiver:
-    def __init__(self):
+    def __init__(self, bus):
+        self.message_bus = bus
         self.events_messages = []
         self.events_voices = []
         self.events_visions = []
         self.events_actions = []
 
-    def receive_user_input(self, user_input: str, user: str) -> str:        
-            print("User :", user)
-            print("Message :", user_input)
+        self.message_bus.subscribe("WritingConversationMemory", self.receive_user_input)
 
+    def receive_user_input(self, message):      
             event = {
-                "type": "user_input",
-                "content": user_input,
-                "user": user
-            }
+                    "id": message.id,
+                    "user": message.data.get("user"),
+                    "message": message.data.get("content"),
+                    "correlation_id": message.correlation_id,
+                    "time": message.timestamp
+                    }
+            print(" event = ", event)
             self.events_messages.append(event)
 
     def get_events(self):
