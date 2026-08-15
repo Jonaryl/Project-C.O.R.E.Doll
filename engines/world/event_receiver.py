@@ -17,7 +17,7 @@ class EventReceiver:
                     "time": message.timestamp,
                     "type": "user_input"   
                     }
-            print(" event = ", event)
+            #print(" event = ", event)
             await self.event_queue.put(event)
 
     async def get_events(self):
@@ -35,9 +35,3 @@ class EventReceiver:
             "visions": [],
             "actions": []
         }
-
-    def clear_event(self):
-        self.events_messages.clear()
-        self.events_voices.clear()
-        self.events_visions.clear()
-        self.events_actions.clear()

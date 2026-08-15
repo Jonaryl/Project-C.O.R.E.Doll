@@ -2,7 +2,7 @@ from pathlib import Path
 
 class KeyVar:
     # Path(__file__).parent
-    MESSAGEJSON = Path(__file__).parent.parent / "library" / "memories" / "CurrentDiscussion.json"
+    MESSAGEJSON = Path(__file__).parent.parent / "library" / "memories" / "temporary" / "CurrentDiscussion.json"
 
     IMMUTABLE_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "immutable_rules.md"
     CONVERSATION_RULE_PATH = Path(__file__).parent.parent / "library" / "rules" / "conversation_engine.md"

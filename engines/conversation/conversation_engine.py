@@ -22,17 +22,10 @@ class ConversationEngine:
         self.input_queue = asyncio.Queue()
         self.handlers = {}
 
-        self.message_bus.subscribe(
-            "LLMResponse",
-            self.on_llm_response
-        )
-        self.message_bus.subscribe(
-            "UserMessageReceived",
-            self.receive_user_input
-        )
+        self.message_bus.subscribe("LLMResponse", self.on_llm_response)
+        self.message_bus.subscribe("UserMessageReceived", self.receive_user_input)
 
     async def main(self):
-        print("ConversationEngine::main")
         asyncio.create_task(self.message_bus.run())
         asyncio.create_task(self.waiting_message())
         asyncio.create_task(self.llm_engine.run())
@@ -75,8 +68,6 @@ class ConversationEngine:
                 )
         await self.write_message_to_memory(request, False)
 
-
-
     async def run(self):
         while True:
             events = await self.world_engine.get_events()
@@ -85,8 +76,8 @@ class ConversationEngine:
                 #events = self.world_engine.get_events()
                 self.world_engine.process_event(events)
                 context = self.world_engine.get_context()
-                prompt = self.get_prompt(events)
-
+                prompt = self.get_prompt(events, context)
+                print("ConversationEngine::run", prompt)
                 try:
                     await self.input_queue.put({
                         "user": self.current_user,
@@ -96,7 +87,8 @@ class ConversationEngine:
                 except Exception as e:
                     print(f"ConversationEngine::run Erreur lors de l'ajout dans input_queue : {e}")
             except Exception as e:
-                                print(f"ConversationEngine::run Erreur problem events : {e}")
+                print(f"ConversationEngine::run Erreur problem events : {e}")
+                print("ConversationEngine::run Erreur problem events event", events)
     
     async def send_message(self, user, content):
         #print(f"[Conversation] {user}: {content}")
@@ -132,8 +124,9 @@ class ConversationEngine:
                 "source": "llm"
             }))
 
-    def get_prompt(self, all_events):
-        return self.conversation_prompt.create_prompt(all_events)
+    def get_prompt(self, all_events, context):
+        print("ConversationEngine get_prompt")
+        return self.conversation_prompt.create_prompt(all_events, context)
 
     async def write_message_to_memory(self, message, isDoll):   
             response = message.data
@@ -156,5 +149,4 @@ class ConversationEngine:
                         correlation_id=message.correlation_id,
                         type="WritingConversationMemory",
                         data=response)
-            
             await self.message_bus.publish(new_message)

@@ -13,8 +13,9 @@ class ConversationPrompt:
             prompt += f"- message: {message["message"]}\n"
         return prompt
 
-    def create_prompt(self, all_events):
-        print("create_prompt all_events", all_events)
+    def create_prompt(self, all_events, context):
+        #print("create_prompt all_events", all_events)
+        print("ConversationPrompt::create_prompt")
         user_input = self.manage_user_messages(all_events["messages"])
 
         prompt = f"""
@@ -24,20 +25,25 @@ class ConversationPrompt:
 """
         #print("ConversationPrompt create_prompt Prompt :", prompt)
 
-        finalprompt = self.add_rules_to_prompt(prompt)
+        finalprompt = self.add_rules_to_prompt(prompt, context)
 
         #print ("final prompt = ", finalprompt)
         return finalprompt
 
 
-    def add_rules_to_prompt(self, prompt):
+    def add_rules_to_prompt(self, prompt, context):
+        print("ConversationPrompt::add_rules_to_prompt")
         updated_prompt = prompt
+        temporary_memory = context["temporary_memory"]
+        state = context["state"]
+
+        print("context", context)
 
         conversation_rules = file_r.read_text(key_var.get_conversation_rules())
         immutable_rules = file_r.read_text(key_var.get_immutable_rules())
         state_rules = file_r.read_text(key_var.get_state_rules())
-        state_rules_json = self.state_format_neural(file_r.read_json_file(key_var.get_state()))
-        memories_rules = ""
+        state_rules_json = self.state_format_neural(state)
+        memories_rules = self.get_temporary_text(temporary_memory)
         knowledge_rules = ""
         relationship_rules = ""
 
@@ -71,8 +77,9 @@ class ConversationPrompt:
 
         return updated_prompt
 
-    def state_format_neural(self, state):
+    def state_format_neural(self, message):
         sections = []
+        state = message.data["state"]
 
         sections.append(self.state_format_identity(state["identity"]))
         sections.append(self.state_format_cognition(state["cognition"]))
@@ -81,7 +88,6 @@ class ConversationPrompt:
 
         return "\n\n".join(sections)
         
-
     def state_format_identity(self, identity):
         text = ["## IDENTITY"]
 
@@ -165,7 +171,7 @@ class ConversationPrompt:
             if items:
                 text.append(", ".join(str(item) for item in items))
             else:
-                text.append("- None established yet.")
+                text.append("- None.")
 
         #print("state_format_personal_values", text)
         return "\n".join(text)
@@ -177,7 +183,6 @@ class ConversationPrompt:
             if personality["personality_trait"] == personality_trait:
                 personality_description = personality["Description"]
         return personality_description
-
 
     def get_state_intensity_text(self, value):
         text = ""
@@ -192,3 +197,20 @@ class ConversationPrompt:
         else:
             text = "very high : "
         return text
+
+    def get_temporary_text(self, temporary_file):
+        temporary_text = ""
+        data = temporary_file[-(len(temporary_file)):-1]
+        max_messages = 20
+
+        if len(data) > max_messages:
+            data = data[-(max_messages + 1):-1]
+
+        for memory in data:
+            temporary_text += f"[{memory["time"]}] {memory["user"]} : {memory["message"]}\n"
+
+        return temporary_text
+
+
+
+    

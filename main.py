@@ -8,7 +8,7 @@ from core.agent import Agent
 agent = Agent()
 app = App(agent=agent)
 
-# Hello, i'm Jonaryl, the developpeur of your cognitive systems
+# You should now have access to our previous message in this conversation. From my introduction. Tell me if you can't them.
 
 def start_asyncio_loop(loop):
     asyncio.set_event_loop(loop)
@@ -32,13 +32,9 @@ if __name__ == "__main__":
 
 # NEXT : 
 
-# temporary memory / conversation history
-
-# base memory
-
-
-
 # DONE : 
 
 # add description to personality trait to try avoid default friendly response
 # conversation == need run - event receiver independant
+# state not take by prompt
+# temporary memory / conversation history

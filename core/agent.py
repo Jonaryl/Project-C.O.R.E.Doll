@@ -27,6 +27,7 @@ class Agent:
     async def main(self):
         self.loop = asyncio.get_running_loop()
         await self.conversation_engine.main()
+        await self.data_engine.main()
 
     async def receive_user_input(self, user_input: str, user: str):
         await self.message_bus.publish(
