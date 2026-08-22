@@ -14,12 +14,10 @@ class WorldEngine:
 
 
     def process_event(self, event):
-        print("WorldEngine get_context")
         # modifier self.state
         pass
 
     def get_context(self):
-        print("WorldEngine get_context")
         return {
             "temporary_memory": self.temporary_memory,
             "state": self.state
@@ -35,5 +33,6 @@ class WorldEngine:
         for memory in memories.data["temporary_memories"]:
             self.temporary_memory.append(memory)
 
-    def update_state(self, state):
+    def update_state(self, message):
+        state = message.data["state"]
         self.state = state

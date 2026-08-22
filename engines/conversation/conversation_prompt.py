@@ -8,14 +8,12 @@ class ConversationPrompt:
     def manage_user_messages(self, messages):
         prompt = "# User input : \n"
         for message in messages:
-            print("message", message)
             prompt += f"- user: {message["user"]}\n"
             prompt += f"- message: {message["message"]}\n"
         return prompt
 
     def create_prompt(self, all_events, context):
         #print("create_prompt all_events", all_events)
-        print("ConversationPrompt::create_prompt")
         user_input = self.manage_user_messages(all_events["messages"])
 
         prompt = f"""
@@ -24,20 +22,15 @@ class ConversationPrompt:
 {user_input}
 """
         #print("ConversationPrompt create_prompt Prompt :", prompt)
-
         finalprompt = self.add_rules_to_prompt(prompt, context)
-
         #print ("final prompt = ", finalprompt)
         return finalprompt
 
 
     def add_rules_to_prompt(self, prompt, context):
-        print("ConversationPrompt::add_rules_to_prompt")
         updated_prompt = prompt
         temporary_memory = context["temporary_memory"]
         state = context["state"]
-
-        print("context", context)
 
         conversation_rules = file_r.read_text(key_var.get_conversation_rules())
         immutable_rules = file_r.read_text(key_var.get_immutable_rules())
@@ -46,6 +39,8 @@ class ConversationPrompt:
         memories_rules = self.get_temporary_text(temporary_memory)
         knowledge_rules = ""
         relationship_rules = ""
+        world_rules = ""
+        response_rules = file_r.read_text(key_var.get_response_format())
 
         updated_prompt = updated_prompt.replace(
         "--Conversation--",
@@ -73,13 +68,20 @@ class ConversationPrompt:
 
         updated_prompt = updated_prompt.replace(
         "--RELATIONSHIP--",
+        world_rules)
+
+        updated_prompt = updated_prompt.replace(
+        "--WORLD--",
         relationship_rules)
+
+        updated_prompt = updated_prompt.replace(
+        "--RESPONSE--",
+        response_rules)
 
         return updated_prompt
 
-    def state_format_neural(self, message):
+    def state_format_neural(self, state):
         sections = []
-        state = message.data["state"]
 
         sections.append(self.state_format_identity(state["identity"]))
         sections.append(self.state_format_cognition(state["cognition"]))
@@ -165,16 +167,22 @@ class ConversationPrompt:
     def state_format_personal_values(self, personal_values):
         text = ["## YOUR PERSONAL VALUES"]
 
+        has_value = False
         for key, label in [("preferences", "Preferences"), ("interests", "Interests"), ("morals", "Morals")]:
             items = personal_values.get(key, [])
-            text.append(f"\n{label} :")
-            if items:
-                text.append(", ".join(str(item) for item in items))
-            else:
-                text.append("- None.")
+            if len(items) != 0:
+                has_value = True
+                text.append(f"\n{label} :")
+                if items:
+                    text.append(", ".join(str(item) for item in items))
+                else:
+                    text.append("- None.")
 
         #print("state_format_personal_values", text)
-        return "\n".join(text)
+        if has_value:
+            return "\n".join(text)
+        else:
+            return ""
 
     def get_personality_trait(self, personality_trait):
         personality_file = file_r.read_json_file(key_var.get_personality_trait())
@@ -199,7 +207,7 @@ class ConversationPrompt:
         return text
 
     def get_temporary_text(self, temporary_file):
-        temporary_text = ""
+        temporary_text = "# Conversation Memories : "
         data = temporary_file[-(len(temporary_file)):-1]
         max_messages = 20
 

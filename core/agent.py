@@ -1,19 +1,28 @@
 import asyncio
+import threading
+
 from engines.conversation.conversation_engine import ConversationEngine
 from engines.world.world_engine import WorldEngine
 from engines.data.data_engine import DataEngine
+
+from engines.perception.perception_engine import PerceptionEngine
 
 from core.message_bus import MessageBus
 from core.messages import Message
 from core.Llm import LLMEngine
 
+from tools.keyVar import KeyVar
+
+key_var = KeyVar()
 class Agent:
     def __init__(self):
-        self.model = "qwen3:8b"
+        self.stop_event = threading.Event()
+        self.model = key_var.get_conversation_model()
         self.message_bus = MessageBus()
 
         self.world_engine = WorldEngine(self.message_bus)
         self.data_engine = DataEngine(self.message_bus)
+        self.perception_engine = PerceptionEngine(self.message_bus)
 
 
         self.llm_engine = LLMEngine(self.message_bus, self.model)
@@ -28,7 +37,14 @@ class Agent:
         self.loop = asyncio.get_running_loop()
         await self.conversation_engine.main()
         await self.data_engine.main()
+        await self.perception_engine.main()
 
+    def stop(self):
+        print("Agent.stop()")
+        self.stop_event.set()
+        if hasattr(self, "perception_engine"):
+            self.perception_engine.stop()
+    
     async def receive_user_input(self, user_input: str, user: str):
         await self.message_bus.publish(
             Message(

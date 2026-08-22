@@ -18,7 +18,9 @@ class DataEngine:
 
     async def get_state(self):
         await self.state_engine.get_state()
-    async def update_state(self, state):
+
+    async def update_state(self, message):
+        state = message["state"]
         await self.state_engine.update_state(state)
 
 

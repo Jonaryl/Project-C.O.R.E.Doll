@@ -1,8 +1,15 @@
 pv/
+_test/
 ENGINE_ROADMAP.md
 architecture.md
 ToDo.md
 library/memories/CurrentDiscussion.json
+old_md
+test.py
+know/
+unknown/
+voice_database.db
+_versions.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

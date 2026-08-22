@@ -1,9 +1,8 @@
 import asyncio
 from datetime import datetime
 
-
-from engines.conversation.conversation_prompt import ConversationPrompt
 from core.messages import Message
+from engines.conversation.conversation_prompt import ConversationPrompt
 from tools.utils import Utils
 
 conversation_prompt = ConversationPrompt()
@@ -75,9 +74,10 @@ class ConversationEngine:
                 #self.event_receiver.receive_user_input(user_input=user_input, user=user)
                 #events = self.world_engine.get_events()
                 self.world_engine.process_event(events)
+                await asyncio.sleep(0)
+
                 context = self.world_engine.get_context()
                 prompt = self.get_prompt(events, context)
-                print("ConversationEngine::run", prompt)
                 try:
                     await self.input_queue.put({
                         "user": self.current_user,
@@ -125,7 +125,6 @@ class ConversationEngine:
             }))
 
     def get_prompt(self, all_events, context):
-        print("ConversationEngine get_prompt")
         return self.conversation_prompt.create_prompt(all_events, context)
 
     async def write_message_to_memory(self, message, isDoll):   

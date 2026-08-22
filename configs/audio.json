@@ -1,0 +1,24 @@
+{
+    "vad_config":{
+        "sample_rate" : 16000,
+        "channels" : 1,
+        "chunk_size" : 512,
+        "threshold" : 0.5
+    },
+    "sound_config":{
+        "model":"MIT/ast-finetuned-audioset-10-10-0.4593",
+        "top_k":10,
+        "buffer_duration": 4.0
+    },
+    "pyannote_confing":
+    {
+        "timer_duration":5.0,
+        "max_audio_duration": 300.0,
+        "similarity_threshold":0.65
+    },
+    "voice_config":
+    {
+        "max_samples_per_person":10.0,
+        "min_audio_duration": 0.8
+    }
+}

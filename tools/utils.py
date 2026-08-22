@@ -29,3 +29,12 @@ class Utils:
 
         #print("new_id", new_id)
         return new_id
+
+    def generate_id_number(self):
+        time_part = datetime.now().strftime("%Y%m%d%H%M")
+        
+        random_part_b = ''.join(random.choice(string.digits) for _ in range(6))
+        
+        new_id = int(f"{time_part}{random_part_b}")
+        
+        return new_id

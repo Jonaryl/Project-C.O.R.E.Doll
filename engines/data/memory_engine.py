@@ -31,12 +31,13 @@ class MemoryEngine:
         await self.set_temporary_memory(temporary_memories)
 
     async def update_memories(self, message):
-            temporary_memories = []
-            entry = await self.add_to_discussion(message)
-            temporary_memories.append(entry)
-            await self.set_temporary_memory(temporary_memories)
+        temporary_memories = []
+        entry = await self.add_to_discussion(message)
+        temporary_memories.append(entry)
+        await self.set_temporary_memory(temporary_memories)
 
     async def set_temporary_memory(self, temporary_memories):
+        print("------------- MemoryEngine set_temporary_memory ---- TYPE : TemporaryMemoryUpdate")
         await self.message_bus.publish(
             Message(
                 id="",

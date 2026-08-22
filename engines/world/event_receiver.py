@@ -8,7 +8,7 @@ class EventReceiver:
         self.message_bus.subscribe("WritingConversationEvent", self.receive_user_input)
 
     async def receive_user_input(self, message):
-            print(" -------  EventReceiver::receive_user_input ------- user = ", message.data.get("user"))  
+            print(" -------  EventReceiver::receive_user_input ----- TYPE user_input ------- user = ", message.data.get("user"))  
             event = {
                     "id": message.id,
                     "user": message.data.get("user"),
@@ -35,3 +35,11 @@ class EventReceiver:
             "visions": [],
             "actions": []
         }
+    
+    def clear_event(self):
+        while not self.event_queue.empty():
+            try:
+                self.event_queue.get_nowait()
+                self.event_queue.task_done()
+            except asyncio.QueueEmpty:
+                break
