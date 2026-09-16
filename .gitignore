@@ -3,13 +3,18 @@ _test/
 ENGINE_ROADMAP.md
 architecture.md
 ToDo.md
-library/memories/CurrentDiscussion.json
+CurrentDiscussion.json
 old_md
 test.py
 know/
 unknown/
+database/vision/
 voice_database.db
+vision_database.db
 _versions.py
+configs.yaml
+models/
+persons/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,28 +1,25 @@
+import asyncio
 import os
 import queue
-from datetime import datetime
-import time
 import threading
-import asyncio
+import time
+from datetime import datetime
 
 import numpy
 import sounddevice
-import torch
 import soundfile
-
+import torch
 from pyannote.audio import Pipeline
+
 #from pyannote.audio import Model
 from pyannote.audio.pipelines.speaker_verification import PretrainedSpeakerEmbedding
-
-from transformers import AutoFeatureExtractor
-from transformers import AutoModelForAudioClassification
-
 from silero_vad import load_silero_vad
+from transformers import AutoFeatureExtractor, AutoModelForAudioClassification
 
-from tools.keyVar import KeyVar
-from tools.file_r import FileRead
 from core.messages import Message
 from engines.perception.voice_database import VoiceDatabase
+from tools.file_r import FileRead
+from tools.keyVar import KeyVar
 
 key_var = KeyVar()
 file_read = FileRead()

@@ -1,0 +1,19 @@
+{
+    "camera_input":"camera_url",
+    "yolo":{
+        "yolo_model":"models/yolo26m.pt",
+        "yolo_interval_high":0.1,
+        "yolo_interval_low":0.5,
+        "process_data_time":5
+    },
+    "mediapipe":{
+        "mediapipe_model":"models/pose_landmarker_heavy.task",
+        "face_model":"models/face_landmarker.task",
+        "object_model":"models/efficientdet_lite0.tflite",
+        "mediapipe_interval_high":0.1,
+        "mediapipe_interval_low":0.5,
+        "process_image_time":12,
+        "process_video_time":2,
+        "process_face_time":20
+    }
+}

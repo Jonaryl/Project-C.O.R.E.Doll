@@ -15,9 +15,9 @@
   },
   "cognition":{
     "current_attention": {
-      "subject": "Jonaryl",
-      "reason": "Current conversation",
-      "importance": 0.7
+      "subject": "",
+      "reason": "",
+      "importance": 0.0
     },
     "emotionnal_state": {
       "primary": null,
@@ -81,6 +81,16 @@
     "preferences": [],
     "interests": [],
     "morals":[]
+  },
+  "reactions":
+  {
+    "visual_reaction":[
+      {
+        "react_to":"",
+        "general_response":[],
+        "type":"urgent"
+      }
+    ]
   },
   "update_request":[
     {

@@ -17,4 +17,8 @@ numpy
 soundfile
 faster-whisper
 
+opencv-python
+ultralytics
+mediapipe
+
 librosa

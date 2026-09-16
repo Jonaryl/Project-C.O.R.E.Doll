@@ -1,9 +1,8 @@
 import asyncio
 import threading
 
-from interface.main_interface import App
-from interface.main_interface import MainTab
 from core.agent import Agent
+from interface.main_interface import App
 
 # You should now have access to our previous message in this conversation. From my introduction. Tell me if you can't access them.
 # Hello, i'm Jonaryl, the developpeur of your cognitive systems.
@@ -46,17 +45,15 @@ if __name__ == "__main__":
 
 # v1 tout les engine : 
 ## Perception Engine
-### AUDIO
-# recuperer son vad pour pyannote
-# diarisation
-# analyser son avec database
-# creer dossier incoonu
-
-######## ! TESTER ENVOYER VOIE SANS STT
-
-# match
-
 ### VISION
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! A FAIRE
+# regarder pour mettre focus
+# regarder pour ajouter objet de la scene
+# STOP apres face model
+# regarder pour mettre modele vrai analyse  
+
+
 ### SENSORS
 
 ## Attention Engine - détection de changements / événements importants
@@ -76,3 +73,5 @@ if __name__ == "__main__":
 ###### A VOIR AUSSI : PREDICTIONS
 
 # DONE : 
+
+### AUDIO : V2 : better person manager
